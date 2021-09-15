@@ -30,7 +30,17 @@ func main() {
 	// changeString()
 	// sqrtDemo()
 
-	findTheSame()
+	// findTheSame()
+
+	// ifDemo()
+
+	// gotoDemo()
+
+	// breakDemo()
+
+	// 打印99乘法表
+	// printTheMul()
+
 }
 
 // 遍历字符串
@@ -59,6 +69,7 @@ func countString() {
 	fmt.Printf("一共有%d个字", num)
 }
 
+// 字符更换
 func changeString() {
 	s1 := "big"
 	byteS1 := []byte(s1)
@@ -71,6 +82,7 @@ func changeString() {
 	fmt.Println(string(runteS2))
 }
 
+// 类型转换
 func sqrtDemo() {
 	var a, b = 3, 4
 	var c int
@@ -78,6 +90,7 @@ func sqrtDemo() {
 	fmt.Println(c)
 }
 
+// 找出只出现过一次的字符
 func findTheSame() {
 	var ary = [...]int{1, 2, 3, 4, 5, 4, 2, 1, 5, 2, 1}
 	var ary2 = make([]int, len(ary))
@@ -89,5 +102,59 @@ func findTheSame() {
 		if v == 1 {
 			fmt.Println(k, v)
 		}
+	}
+}
+
+// 流程控制 if
+func ifDemo() {
+	score := 65
+	if score >= 90 {
+		fmt.Println("A")
+	} else if score >= 75 {
+		fmt.Println("B")
+	} else {
+		fmt.Println("C")
+	}
+}
+
+// goto Demo
+func gotoDemo() {
+	for i := 0; i < 10; i++ {
+		for j := 0; j < 10; j++ {
+			if j == 2 && i == 2 {
+				goto breakTag
+			}
+
+			fmt.Printf("%v-%v\n", i, j)
+		}
+	}
+	return
+	// 标签
+breakTag:
+	fmt.Println("结束for循环")
+}
+
+// break Demo
+func breakDemo() {
+BREAKDEMO1:
+	for i := 0; i < 10; i++ {
+		for j := 0; j < 10; j++ {
+			if j == 2 && i == 2 {
+				break BREAKDEMO1
+			}
+
+			fmt.Printf("%v-%v\n", i, j)
+		}
+	}
+	fmt.Println("...")
+}
+
+// 打印99乘法表
+func printTheMul() {
+	for i := 1; i < 10; i++ {
+		for j := 1; j < 10; j++ {
+			fmt.Printf("%d * %d = %d\t", j, i, i*j)
+		}
+		fmt.Println()
 	}
 }
