@@ -3,6 +3,14 @@ package main
 import (
 	"fmt"
 	"math"
+	"strings"
+)
+var (
+	coins = 50
+	users = []string{
+		"Matthew", "Sarah", "Augustus", "Heidi", "Emilie", "Peter", "Giana", "Adriano", "Aaron", "Elizabeth","", 
+	}
+	distribution = make(map[string]int, len(users))
 )
 
 func main() {
@@ -41,6 +49,7 @@ func main() {
 	// 打印99乘法表
 	// printTheMul()
 
+	/** Go语言基础之数组 **/
 	// 数组的demo
 	// 数组是同一种数据类型元素的集合。 在Go语言中，数组从声明时就确定，使用时可以修改数组成员，但是数组大小不可变化。 基本语法：
 	// var testArray [3]int
@@ -58,7 +67,8 @@ func main() {
 
 	// 找出数组中和为指定值的两个元素的下标
 	// findTheAryKey(8)
-
+	
+	/** Go语言基础之切片 **/
 	// 切片（Slice）是一个拥有相同类型元素的可变长度的序列。它是基于数组类型做的一层封装。它非常灵活，支持自动扩容。
 	// 切片是一个引用类型，它的内部结构包含地址、长度和容量。切片一般用于快速地操作一块数据集合。
 	// 切片声明
@@ -102,6 +112,7 @@ func main() {
 	// sort.Ints(b)
 	// fmt.Println(b)
 
+	/** Go语言基础之map **/
 	// map是一种无序的基于key-value的数据结构，Go语言中的map是引用类型，必须初始化才能使用。
 	// scoreMap := make(map[string]int, 8)
 	// scoreMap["小明"] = 8
@@ -224,6 +235,7 @@ func main() {
 	// fmt.Printf("%+v\n", s)
 	// fmt.Printf("%+v\n", m["q1mi"])
 
+	/** Go语言基础之函数 **/
 	// 函数的调用
 	// sayHello()
 	// ret := intSum(10, 20)
@@ -332,6 +344,118 @@ func main() {
 	// funcA()
 	// funcB()
 	// funcC()
+
+	// 练习题 - 分金币
+	/*
+		你有50枚金币，需要分配给以下几个人：Matthew,Sarah,Augustus,Heidi,Emilie,Peter,Giana,Adriano,Aaron,Elizabeth。
+		分配规则如下：
+		a. 名字中每包含1个'e'或'E'分1枚金币
+		b. 名字中每包含1个'i'或'I'分2枚金币
+		c. 名字中每包含1个'o'或'O'分3枚金币
+		d: 名字中每包含1个'u'或'U'分4枚金币
+		写一个程序，计算每个用户分到多少金币，以及最后剩余多少金币？
+		程序结构如下，请实现 ‘dispatchCoin’ 函数
+		*/
+
+		// left := dispatchCoin()
+		// fmt.Println("剩下：", left)
+
+	/** Go语言基础之指针 **/
+	
+	// 指针地址和指针类型
+	// a := 10
+	// b := &a
+	// fmt.Printf("a:%d ptr:%p\n", a, &a) // a:10 ptr:0xc00001a078
+	// fmt.Printf("b:%d, b:%p type:%T\n", b, b, b) // b:0xc00001a078 type:*int
+	// fmt.Println(&b)                    // 0xc00000e018
+
+	// 指针取值
+	// a := 10
+	// b := &a // 取变量a的地址，将指针保存到b中
+	// fmt.Printf("type of b:%T\n", b)
+	// c := *b // 指针取值（根据指针去内存取值）
+	// fmt.Printf("type of c:%T\n", c)
+	// fmt.Printf("value of c:%v\n", c)
+	// 总结： 取地址操作符&和取值操作符*是一对互补操作符，&取出地址，*根据地址取出地址指向的值。
+
+	// new 和 make  
+	// var a *int
+	// *a = 100
+	// fmt.Println(*a)
+
+	// var b map[string]int
+	// b["沙河娜扎"] = 100
+	// fmt.Println(b)
+
+	// 执行上面的代码会引发panic，为什么呢？ 在Go语言中对于引用类型的变量，我们在使用的时候不仅要声明它，还要为它分配内存空间，否则我们的值就没办法存储。
+	// 分配内存空间
+	// var a *int
+	// a = new(int)
+	// *a = 10
+	// fmt.Println(*a)
+
+	// 而对于值类型的声明不需要分配内存空间，是因为它们在声明的时候已经默认分配好了内存空间。要分配内存，就引出来今天的new和make。 Go语言中new和make是内建的两个函数，主要用来分配内存。
+	// 分配内存
+	// var b map[string]int
+	// b = make(map[string]int, 10)
+	// b["沙河娜扎"] = 100
+	// fmt.Println(b)
+
+	// new与make的区别
+	// 1. 二者都是用来做内存分配的
+	// 2. make只用于slice、map以及channel的初始化，返回的还是这三个引用类型本身；
+	// 3. 而new用于类型的内存分配，并且内存对应的值为类型零值，返回的是指向类型的指针。
+
+	/** Go语言基础之结构体 **/
+	// 结构体实例化
+	type person struct {
+		name string
+		city string
+		age  int8
+	}
+
+	var p1 person
+	
+	p1.name = "沙河娜扎"
+	p1.city = "北京"
+	p1.age = 18
+	fmt.Printf("p1=%v\n", p1)  //p1={沙河娜扎 北京 18}
+	fmt.Printf("p1=%#v\n", p1) //p1=main.person{name:"沙河娜扎", city:"北京", age:18}
+
+}
+
+// 计算每个人所得的金币
+func dispatchCoin() (int) {
+	for _, name:= range users {
+		coin := countCoin(name)
+		distribution[name] = coin;
+		fmt.Printf("%s 的金币为：%d \n",name, coin)
+	}
+	var sum = 0;
+	for _, v := range distribution{
+		sum+= v;
+	}
+	return coins - sum;
+}
+
+// 计算名字中分配的金币数
+func countCoin(name string) (result int) {
+
+	result = 0
+	name = strings.ToUpper(name)
+	bs := []byte(name)
+	for _, value := range bs {
+		if value == 'E' {
+			result++
+		} else if value == 'I' {
+			result += 2
+		} else if value == 'O' {
+			result += 3
+		} else if value == 'U' {
+			result += 4
+		} 
+	}
+	return
 }
 
 func funcA() {
