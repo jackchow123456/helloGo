@@ -1,16 +1,17 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"math"
 	"strings"
 	"unsafe"
-	"json"
 )
+
 var (
 	coins = 50
 	users = []string{
-		"Matthew", "Sarah", "Augustus", "Heidi", "Emilie", "Peter", "Giana", "Adriano", "Aaron", "Elizabeth","", 
+		"Matthew", "Sarah", "Augustus", "Heidi", "Emilie", "Peter", "Giana", "Adriano", "Aaron", "Elizabeth", "",
 	}
 	distribution = make(map[string]int, len(users))
 )
@@ -69,7 +70,7 @@ func main() {
 
 	// 找出数组中和为指定值的两个元素的下标
 	// findTheAryKey(8)
-	
+
 	/** Go语言基础之切片 **/
 	// 切片（Slice）是一个拥有相同类型元素的可变长度的序列。它是基于数组类型做的一层封装。它非常灵活，支持自动扩容。
 	// 切片是一个引用类型，它的内部结构包含地址、长度和容量。切片一般用于快速地操作一块数据集合。
@@ -357,13 +358,13 @@ func main() {
 		d: 名字中每包含1个'u'或'U'分4枚金币
 		写一个程序，计算每个用户分到多少金币，以及最后剩余多少金币？
 		程序结构如下，请实现 ‘dispatchCoin’ 函数
-		*/
+	*/
 
-		// left := dispatchCoin()
-		// fmt.Println("剩下：", left)
+	// left := dispatchCoin()
+	// fmt.Println("剩下：", left)
 
 	/** Go语言基础之指针 **/
-	
+
 	// 指针地址和指针类型
 	// a := 10
 	// b := &a
@@ -380,7 +381,7 @@ func main() {
 	// fmt.Printf("value of c:%v\n", c)
 	// 总结： 取地址操作符&和取值操作符*是一对互补操作符，&取出地址，*根据地址取出地址指向的值。
 
-	// new 和 make  
+	// new 和 make
 	// var a *int
 	// *a = 100
 	// fmt.Println(*a)
@@ -418,7 +419,7 @@ func main() {
 	}
 
 	// var p1 person
-	
+
 	// p1.name = "沙河娜扎"
 	// p1.city = "北京"
 	// p1.age = 18
@@ -479,10 +480,10 @@ func main() {
 	// fmt.Printf("n.c %p\n", &n.c)
 	// fmt.Printf("n.d %p\n", &n.d)
 	// 输出
-// 	n.a 0xc0000a0060
-// n.b 0xc0000a0061
-// n.c 0xc0000a0062
-// n.d 0xc0000a0063
+	// 	n.a 0xc0000a0060
+	// n.b 0xc0000a0061
+	// n.c 0xc0000a0062
+	// n.d 0xc0000a0063
 
 	// 空结构体 - 空结构体是不占用空间的。
 	var v struct{}
@@ -493,7 +494,7 @@ func main() {
 	// 	name string
 	// 	age  int
 	// }
-	
+
 	// m := make(map[string]*student)
 	// stus := []student{
 	// 	{name: "小王子", age: 18},
@@ -525,7 +526,7 @@ func main() {
 	// p2.setAge(18)
 	// fmt.Printf("周周的年龄是：%d\n",p2.age)
 
-	// 任意类型添加方法 
+	// 任意类型添加方法
 	// 在Go语言中，接收者的类型可以是任何类型，不仅仅是结构体，任何类型都可以拥有方法。 举个例子，我们基于内置的int类型使用type关键字可以定义新的自定义类型，然后为我们的自定义类型添加方法。
 	// var m1 MyInt
 	// m1.sayHello()
@@ -563,8 +564,8 @@ func main() {
 	// user.Address.CreateTime = "2021-12-02 14:47:52"
 	// fmt.Printf("%#v\n", user)
 
-	 // 结构体的“继承”
-	 // Go语言中使用结构体也可以实现其他编程语言中面向对象的继承。
+	// 结构体的“继承”
+	// Go语言中使用结构体也可以实现其他编程语言中面向对象的继承。
 	//  dog := &Dog{4,&Animal{"乐乐"}}
 	//  dog.move()
 	//  dog.wang()
@@ -573,33 +574,39 @@ func main() {
 	// 结构体中字段大写开头表示可公开访问，小写表示私有（仅在定义当前结构体的包中可访问）。
 
 	// 结构体与JSON序列化
-	c := &Class{"101",make([]*Student,0,200)}
+	c := &Class{
+		Title:    "101",
+		Students: make([]*Student, 0, 200),
+	}
 	for i := 0; i < 10; i++ {
 		stu := &Student{
-			fmt.Sprintf("stu_%02d",i), 
-			i,
+			Name:   fmt.Sprintf("stu%02d", i),
+			Gender: "男",
+			ID:     i,
 		}
-		c.students = append(c.students, stu)
+		c.Students = append(c.Students, stu)
 	}
-	fmt.Sprintf("%#v\n",c)
+
+	//JSON序列化：结构体-->JSON格式的字符串
 	data, err := json.Marshal(c)
-	if !err != nil {
-		fmt.Println("json Marshal failed.")
+	if err != nil {
+		fmt.Println("json marshal failed")
 		return
 	}
-	fmt.Sprintf("json:%s",data)
+	fmt.Printf("json:%s\n", data)
 }
 
 // 学生
-type Student struct{
-	name string
-	id int
+type Student struct {
+	ID     int
+	Gender string
+	Name   string
 }
 
 // 班级
-type Class struct{
-	title string
-	students []*Student
+type Class struct {
+	Title    string
+	Students []*Student
 }
 
 // Animal 动物
@@ -608,43 +615,41 @@ type Animal struct {
 }
 
 // 动物的方法，走
-func (animal *Animal) move(){
-	fmt.Printf("%s会走\n",animal.name)
+func (animal *Animal) move() {
+	fmt.Printf("%s会走\n", animal.name)
 }
 
 // Dog 狗
-type Dog struct{
+type Dog struct {
 	feet int
 	*Animal
 }
 
 // 狗的方法，叫
-func (dog *Dog) wang(){
-	fmt.Printf("%s会汪汪汪\n",dog.name)
+func (dog *Dog) wang() {
+	fmt.Printf("%s会汪汪汪\n", dog.name)
 }
-
 
 //Address 地址结构体
 type Address struct {
-	Province string
-	City string
+	Province   string
+	City       string
 	CreateTime string
 }
 
 //Email 邮箱结构体
 type Email struct {
-	Account string
+	Account    string
 	CreateTime string
 }
 
 //User 用户结构体
 type User struct {
 	Name string
-	Age int
+	Age  int
 	Address
 	Email
 }
-
 
 // 结构体的匿名字段
 type person1 struct {
@@ -653,7 +658,8 @@ type person1 struct {
 }
 
 type MyInt int
-func (m MyInt)sayHello(){
+
+func (m MyInt) sayHello() {
 	fmt.Println("Hellow,我是一个INt")
 }
 
@@ -662,37 +668,37 @@ type person struct {
 	city string
 	age  int8
 }
+
 func newPerson(name, city string, age int8) *person {
 	return &person{
-		name : name,
-		city : city,
-		age : age,
+		name: name,
+		city: city,
+		age:  age,
 	}
 }
 
 //Dream person做梦的方法
-func (p person)dream(){
-	fmt.Printf("%s的梦想就是学好go语言\n",p.name)
+func (p person) dream() {
+	fmt.Printf("%s的梦想就是学好go语言\n", p.name)
 }
 
 // 设置年龄
-func (p *person)setAge(age int8){
+func (p *person) setAge(age int8) {
 	p.age = age
 }
 
-
 // 计算每个人所得的金币
-func dispatchCoin() (int) {
-	for _, name:= range users {
+func dispatchCoin() int {
+	for _, name := range users {
 		coin := countCoin(name)
-		distribution[name] = coin;
-		fmt.Printf("%s 的金币为：%d \n",name, coin)
+		distribution[name] = coin
+		fmt.Printf("%s 的金币为：%d \n", name, coin)
 	}
-	var sum = 0;
-	for _, v := range distribution{
-		sum+= v;
+	var sum = 0
+	for _, v := range distribution {
+		sum += v
 	}
-	return coins - sum;
+	return coins - sum
 }
 
 // 计算名字中分配的金币数
@@ -710,7 +716,7 @@ func countCoin(name string) (result int) {
 			result += 3
 		} else if value == 'U' {
 			result += 4
-		} 
+		}
 	}
 	return
 }
