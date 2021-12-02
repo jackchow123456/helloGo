@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"strings"
+	"unsafe"
 )
 var (
 	coins = 50
@@ -408,21 +409,249 @@ func main() {
 
 	/** Go语言基础之结构体 **/
 	// 结构体实例化
+	// 基本实例化
 	type person struct {
 		name string
 		city string
 		age  int8
 	}
 
-	var p1 person
+	// var p1 person
 	
-	p1.name = "沙河娜扎"
-	p1.city = "北京"
-	p1.age = 18
-	fmt.Printf("p1=%v\n", p1)  //p1={沙河娜扎 北京 18}
-	fmt.Printf("p1=%#v\n", p1) //p1=main.person{name:"沙河娜扎", city:"北京", age:18}
+	// p1.name = "沙河娜扎"
+	// p1.city = "北京"
+	// p1.age = 18
+	// fmt.Printf("p1=%v\n", p1)  //p1={沙河娜扎 北京 18}
+	// fmt.Printf("p1=%#v\n", p1) //p1=main.person{name:"沙河娜扎", city:"北京", age:18}
 
+	// 匿名结构体
+	// var user struct {Name string; Age int}
+	// user.Name = "xhz"
+	// user.Age = 18
+	// fmt.Printf("%#v\n",user)
+
+	// 创建指针类型结构体
+	// var p2 = new(person)
+	// fmt.Printf("%T\n",p2)
+	// fmt.Printf("p2=%#v\n",p2)
+	// p2.name = "小伙子"
+	// p2.age = 18
+	// p2.city = "上海"
+	// fmt.Printf("p2=%#v\n",p2)
+
+	// 取结构体的地址实例化
+	// 使用&对结构体进行取地址操作相当于对该结构体类型进行了一次new实例化操作。
+	// p3 := &person{}
+	// fmt.Printf("%T\n",p3)
+	// fmt.Printf("p3=%#v\n",p3)
+	// p3.name = "七米"
+	// p3.age = 30
+	// p3.city = "成都"
+	// fmt.Printf("p3=%#v\n",p3)
+
+	// 结构体初始化
+	// 没有初始化的结构体，其成员变量都是对应其类型的零值。
+	// var p4 person
+	// fmt.Printf("p4=%#v\n",p4)
+
+	// 使用键值对初始化
+	// p5 := person{
+	// 	name:"小王子",
+	// 	city:"北京",
+	// 	age:18,
+	// }
+	// fmt.Printf("p5=%#v\n",p5)
+
+	// 结构体内存布局
+	// 结构体占用一块连续的内存。
+	// type test struct {
+	// 	a int8
+	// 	b int8
+	// 	c int8
+	// 	d int8
+	// }
+	// n := test{
+	// 	1, 2, 3, 4,
+	// }
+	// fmt.Printf("n.a %p\n", &n.a)
+	// fmt.Printf("n.b %p\n", &n.b)
+	// fmt.Printf("n.c %p\n", &n.c)
+	// fmt.Printf("n.d %p\n", &n.d)
+	// 输出
+// 	n.a 0xc0000a0060
+// n.b 0xc0000a0061
+// n.c 0xc0000a0062
+// n.d 0xc0000a0063
+
+	// 空结构体 - 空结构体是不占用空间的。
+	var v struct{}
+	fmt.Println(unsafe.Sizeof(v))
+
+	// 面试题 - 请问下面代码的执行结果是什么？
+	// type student struct {
+	// 	name string
+	// 	age  int
+	// }
+	
+	// m := make(map[string]*student)
+	// stus := []student{
+	// 	{name: "小王子", age: 18},
+	// 	{name: "娜扎", age: 23},
+	// 	{name: "大王八", age: 9000},
+	// }
+
+	// for _, stu := range stus {
+	// 	m[stu.name] = &stu
+	// }
+	// for k, v := range m {
+	// 	fmt.Println(k, "=>", v.name)
+	// }
+
+	// 构造函数 newPerson
+	// Go语言的结构体没有构造函数，我们可以自己实现。 例如，下方的代码就实现了一个person的构造函数。 因为struct是值类型，如果结构体比较复杂的话，值拷贝性能开销会比较大，所以该构造函数返回的是结构体指针类型。
+
+	// 调用构造函数
+	// p9:= newPerson("张三", "沙河", 90)
+	// fmt.Printf("%#v\n",p9)
+
+	// 方法和接收者
+	// p1 := newPerson("周周", "沙河", 18)
+	// p1.dream()
+
+	// 指针类型的接收者
+	// p2 := newPerson("周周", "广州", 28)
+	// fmt.Printf("周周的年龄是：%d\n",p2.age)
+	// p2.setAge(18)
+	// fmt.Printf("周周的年龄是：%d\n",p2.age)
+
+	// 任意类型添加方法 
+	// 在Go语言中，接收者的类型可以是任何类型，不仅仅是结构体，任何类型都可以拥有方法。 举个例子，我们基于内置的int类型使用type关键字可以定义新的自定义类型，然后为我们的自定义类型添加方法。
+	// var m1 MyInt
+	// m1.sayHello()
+	// m1 = 100
+	// fmt.Printf("%#v,%T\n",m1,m1)
+
+	// 结构体的匿名字段
+	// 结构体允许其成员字段在声明时没有字段名而只有类型，这种没有名字的字段就称为匿名字段。
+	// p := person1{"周周",18}
+	// fmt.Printf("%#v\n",p)
+	// 注意：这里匿名字段的说法并不代表没有字段名，而是默认会采用类型名作为字段名，结构体要求字段名称必须唯一，因此一个结构体中同种类型的匿名字段只能有一个。
+
+	// 嵌套结构体
+	// 一个结构体中可以嵌套包含另一个结构体或结构体指针，就像下面的示例代码那样。
+	// address := Address{"广东省","广州市"}
+	// user := User{"周周",18,address}
+	// fmt.Printf("%#v\n",user)
+
+	// 嵌套匿名字段
+	// // 上面user结构体中嵌套的Address结构体也可以采用匿名字段的方式，例如：
+	// user := User{"周周",18,Address{}}
+	// fmt.Printf("%#v\n", user)
+	// user.Address.Province = "广东"
+	// fmt.Printf("%#v\n", user)
+	// user.City = "广州"
+	// fmt.Printf("%#v\n", user)
+	// 当访问结构体成员时会先在结构体中查找该字段，找不到再去嵌套的匿名字段中查找。
+
+	// 嵌套结构体的字段名冲突
+	// 嵌套结构体内部可能存在相同的字段名。在这种情况下为了避免歧义需要通过指定具体的内嵌结构体字段名。
+	// var user User
+	// user.Name = "周周"
+	// user.Age = 18
+	// // user.CreateTime = "2021-12-02 14:47:52" // ambiguous selector user.CreateTim
+	// user.Address.CreateTime = "2021-12-02 14:47:52"
+	// fmt.Printf("%#v\n", user)
+
+	 // 结构体的“继承”
+	 // Go语言中使用结构体也可以实现其他编程语言中面向对象的继承。
+	//  dog := &Dog{4,&Animal{"乐乐"}}
+	//  dog.move()
+	//  dog.wang()
+
+	// 结构体字段的可见性
+	// 结构体中字段大写开头表示可公开访问，小写表示私有（仅在定义当前结构体的包中可访问）。
+
+	// 结构体与JSON序列化
 }
+
+// Animal 动物
+type Animal struct {
+	name string
+}
+
+// 动物的方法，走
+func (animal *Animal) move(){
+	fmt.Printf("%s会走\n",animal.name)
+}
+
+// Dog 狗
+type Dog struct{
+	feet int
+	*Animal
+}
+
+// 狗的方法，叫
+func (dog *Dog) wang(){
+	fmt.Printf("%s会汪汪汪\n",dog.name)
+}
+
+
+//Address 地址结构体
+type Address struct {
+	Province string
+	City string
+	CreateTime string
+}
+
+//Email 邮箱结构体
+type Email struct {
+	Account string
+	CreateTime string
+}
+
+//User 用户结构体
+type User struct {
+	Name string
+	Age int
+	Address
+	Email
+}
+
+
+// 结构体的匿名字段
+type person1 struct {
+	string
+	int
+}
+
+type MyInt int
+func (m MyInt)sayHello(){
+	fmt.Println("Hellow,我是一个INt")
+}
+
+type person struct {
+	name string
+	city string
+	age  int8
+}
+func newPerson(name, city string, age int8) *person {
+	return &person{
+		name : name,
+		city : city,
+		age : age,
+	}
+}
+
+//Dream person做梦的方法
+func (p person)dream(){
+	fmt.Printf("%s的梦想就是学好go语言\n",p.name)
+}
+
+// 设置年龄
+func (p *person)setAge(age int8){
+	p.age = age
+}
+
 
 // 计算每个人所得的金币
 func dispatchCoin() (int) {
