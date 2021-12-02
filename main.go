@@ -5,6 +5,7 @@ import (
 	"math"
 	"strings"
 	"unsafe"
+	"json"
 )
 var (
 	coins = 50
@@ -572,6 +573,33 @@ func main() {
 	// 结构体中字段大写开头表示可公开访问，小写表示私有（仅在定义当前结构体的包中可访问）。
 
 	// 结构体与JSON序列化
+	c := &Class{"101",make([]*Student,0,200)}
+	for i := 0; i < 10; i++ {
+		stu := &Student{
+			fmt.Sprintf("stu_%02d",i), 
+			i,
+		}
+		c.students = append(c.students, stu)
+	}
+	fmt.Sprintf("%#v\n",c)
+	data, err := json.Marshal(c)
+	if !err != nil {
+		fmt.Println("json Marshal failed.")
+		return
+	}
+	fmt.Sprintf("json:%s",data)
+}
+
+// 学生
+type Student struct{
+	name string
+	id int
+}
+
+// 班级
+type Class struct{
+	title string
+	students []*Student
 }
 
 // Animal 动物
