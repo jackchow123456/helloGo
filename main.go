@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"math"
 	"strings"
@@ -574,31 +573,122 @@ func main() {
 	// 结构体中字段大写开头表示可公开访问，小写表示私有（仅在定义当前结构体的包中可访问）。
 
 	// 结构体与JSON序列化
-	c := &Class{
-		Title:    "101",
-		Students: make([]*Student, 0, 200),
-	}
-	for i := 0; i < 10; i++ {
-		stu := &Student{
-			Name:   fmt.Sprintf("stu%02d", i),
-			Gender: "男",
-			ID:     i,
-		}
-		c.Students = append(c.Students, stu)
-	}
+	// c := &Class{
+	// 	Title:    "101",
+	// 	Students: make([]*Student, 0, 200),
+	// }
+	// for i := 0; i < 10; i++ {
+	// 	stu := &Student{
+	// 		Name:   fmt.Sprintf("stu%02d", i),
+	// 		Gender: "男",
+	// 		ID:     i,
+	// 	}
+	// 	c.Students = append(c.Students, stu)
+	// }
 
-	//JSON序列化：结构体-->JSON格式的字符串
-	data, err := json.Marshal(c)
-	if err != nil {
-		fmt.Println("json marshal failed")
-		return
-	}
-	fmt.Printf("json:%s\n", data)
+	// //JSON序列化：结构体-->JSON格式的字符串
+	// data, err := json.Marshal(c)
+	// if err != nil {
+	// 	fmt.Println("json marshal failed")
+	// 	return
+	// }
+	// fmt.Printf("json:%s\n", data)
+
+	// str := data
+	// c1 := &Class{}
+	// //JSON反序列化：JSON格式的字符串-->结构体
+	// err = json.Unmarshal([]byte(str), c1)
+	// if err != nil {
+	// 	fmt.Println("json unmarshal failed!")
+	// 	return
+	// }
+	// fmt.Printf("%#v\n", c1)
+
+	// 结构体标签（Tag）
+	// Tag是结构体的元信息，可以在运行的时候通过反射的机制读取出来。 Tag在结构体字段的后方定义，由一对反引号包裹起来，具体的格式如下：`key1:"value1" key2:"value2"`
+	// 结构体tag由一个或多个键值对组成。键与值使用冒号分隔，值用双引号括起来。同一个结构体字段可以设置多个键值对tag，不同的键值对之间使用空格分隔。
+	// 例如我们为Student结构体的每个字段定义json序列化时使用的Tag：
+
+	// s1 := Student{
+	// 	ID:     1,
+	// 	Gender: "男性",
+	// 	Name:   "小明",
+	// }
+	// data, err := json.Marshal(s1)
+	// if err != nil {
+	// 	fmt.Println("json marshal failed.")
+	// 	return
+	// }
+	// fmt.Printf("json str:%s\n", data)
+
+	// 结构体和方法补充知识点
+	// 因为slice和map这两种数据类型都包含了指向底层数据的指针，因此我们在需要复制它们时要特别注意。我们来看下面的例子：
+	// p := Person{name: "周周", age: 18}
+	// data := []string{"吃饭", "睡觉"}
+	// p.setDreams(data)
+	// data[1] = "不睡觉"
+	// fmt.Println(p.dreams)
+
+	// 练习题
+	// 使用“面向对象”的思维方式编写一个学生信息管理系统
+	// 1. 学生有id、姓名、年龄、分数等信息
+	// 2. 程序提供展示学生列表、添加学生、编辑学生信息、删除学生等功能
+
+	/** Go语言基础之接口 **/
+	// 接口的定义
+
+	// 实现接口的条件
+
+	// 接口类型变量
+	// var x sayer // 声明一个sayer的变量 x
+	// c := cat{}  // 实例化 一个 cat
+	// d := dog{}  // 实例化 一个 dog
+	// x = c       // 把 cat 实例直接赋值给 x
+	// x.say()     // 喵喵喵
+	// x = d
+	// x.say()
+
+	// Tips： 观察下面的代码，体味此处_的妙用
+	// type IRouter interface{}
+	// type RouterGroup struct{}
+	// var _ IRouter = &RouterGroup{} // 确保RouterGroup实现了接口IRouter
+
+	// 接收者和指针接收者实现接口的区别
+	// 不管是dog结构体还是结构体指针*dog类型的变量都可以赋值给该接口变量。因为Go语言中有对指针类型变量求值的语法糖，dog指针fugui内部会自动求值*fugui。
+
+}
+
+// 接口的定义
+type sayer interface {
+	say()
+}
+
+// 实现接口的条件
+type dog struct{}
+
+type cat struct{}
+
+func (d dog) say() {
+	fmt.Println("汪汪汪")
+}
+func (c cat) say() {
+	fmt.Println("喵喵喵")
+}
+
+type Person struct {
+	name   string
+	age    int8
+	dreams []string
+}
+
+func (p *Person) setDreams(dreams []string) {
+	p.dreams = make([]string, len(dreams))
+	copy(p.dreams, dreams)
 }
 
 // 学生
 type Student struct {
-	ID     int
+	ID     int `json:"id"`
 	Gender string
 	Name   string
 }
