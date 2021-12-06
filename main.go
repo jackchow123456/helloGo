@@ -656,6 +656,159 @@ func main() {
 	// 接收者和指针接收者实现接口的区别
 	// 不管是dog结构体还是结构体指针*dog类型的变量都可以赋值给该接口变量。因为Go语言中有对指针类型变量求值的语法糖，dog指针fugui内部会自动求值*fugui。
 
+	// 面试题 - 首先请观察下面的这段代码，然后请回答这段代码能不能通过编译？ 
+	// 不能，
+	// var peo Peoplet = Studentt{}
+	// think := "bitch"
+	// fmt.Println(peo.Speak(think))
+
+	// 一个类型实现多个接口
+	// var x Sayer
+	// var y Mover
+	// var a = dogg{name:"旺旺"}
+	// x = a
+	// y = a
+	// x.say()
+	// y.move()
+
+	// 多个类型实现同一接口
+	// var x Mover
+	// d := dogg{name:"旺财"}
+	// x = d
+	// x.move()
+	// c := catt{branch:"咖啡猫"}
+	// x = c
+	// x.move()
+	// 并且一个接口的方法，不一定需要由一个类型完全实现，接口的方法可以通过在类型中嵌入其他类型或者结构体来实现。
+	// var x WashingMachine
+	// d := Dryer{}
+	// h := haier{d}
+	// x = h
+	// x.wash()
+	// x.dry()
+	
+	// 接口嵌套
+	// 接口与接口间可以通过嵌套创造出新的接口。
+	// 嵌套得到的接口的使用与普通接口一样，这里我们让cat实现animal接口：
+	// var x animal
+	// c := catt{branch:"加菲猫"}
+	// x = c
+	// x.say()
+	// x.move()
+
+	// 空接口
+	// 空接口是指没有定义任何方法的接口。因此任何类型都实现了空接口。
+	// 空接口类型的变量可以存储任意类型的变量。
+	// var x interface{}
+	// s := "Hello 沙河"
+	// x = s
+	// fmt.Printf("type:%T value:%v\n", x, x)
+	// i := 100
+	// x = i
+	// fmt.Printf("type:%T value:%v\n", x, x)
+	// b := true
+	// x = b
+	// fmt.Printf("type:%T value:%v\n", x, x)
+
+	// 空接口的应用
+	// 空接口作为函数的参数
+	// 空接口作为map的值
+	// var studentInfo = make(map[string]interface{})
+	// studentInfo["name"] = "沙河娜扎"
+	// studentInfo["age"] = 18
+	// studentInfo["married"] = false
+	// fmt.Println(studentInfo)
+
+	// 类型断言
+	xx = "Hello 沙河"
+	vv, ok := xx.(string)
+	if ok {
+		fmt.Println(vv)
+	} else {
+		fmt.Println("类型断言失败")
+	}
+
+	/** Go语言基础之反射 **/
+}
+
+var xx interface{}
+
+// 空接口作为函数参数
+func show(a interface{}) {
+	fmt.Printf("type:%T value:%v\n", a, a)
+}
+
+type animal interface{
+	Mover
+	Sayer
+}
+
+type WashingMachine interface{
+	wash()
+	dry()
+}
+
+type Dryer struct {}
+
+func (d Dryer) dry(){
+	fmt.Println("脱水烘干")
+}
+
+type haier struct{
+	Dryer
+}
+
+func (h haier) wash(){
+	fmt.Println("洗衣服")
+}
+
+type catt struct{
+	branch string
+}
+
+type dogg struct{
+	name string 
+}
+
+func (d dogg) say(){
+	fmt.Printf("%s叫了：汪汪汪\n",d.name)
+}
+
+func (d dogg) move(){
+	fmt.Printf("%s走了\n",d.name)
+}
+
+func (c catt) move(){
+	fmt.Printf("%s速度70迈\n",c.branch)
+}
+
+func (c catt) say(){
+	fmt.Printf("%s叫了：猫猫猫\n",c.branch)
+}
+
+// Sayer 接口
+type Sayer interface{
+	say()
+}
+
+// Mover 接口
+type Mover interface{
+	move()
+}
+
+type Peoplet interface {
+	Speak(string) string
+}
+
+type Studentt struct{}
+
+func (stu *Studentt) Speak(think string) (talk string) {
+	if think == "sb" {
+		talk = "你是个大帅比"
+	} else {
+		talk = "您好"
+	}
+	return
 }
 
 // 接口的定义
