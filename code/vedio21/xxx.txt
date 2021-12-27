@@ -1,0 +1,27 @@
+abc
+xxx
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+fmt.Printf("read file failed, err:%v\n", err)
+a
+b
+c
